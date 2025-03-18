@@ -23,7 +23,7 @@ Open your terminal and run the following commands:
 cd /path/to/my-project.test
 
 # tell Composer to load the plugin
-composer require craftsnippets/craft-mygls
+composer require craftsnippets/craft-shipping-toolbox-mygls
 
 # tell Craft to install the plugin
 ./craft plugin/install mygls-shipping
