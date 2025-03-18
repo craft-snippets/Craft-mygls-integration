@@ -1,0 +1,69 @@
+{% import '_includes/forms.twig' as forms %}
+
+{{ forms.booleanMenuField({
+    label: settings.attributeLabels.testMode,
+    id: 'testMode',
+    name: 'testMode',
+    includeEnvVars: true,
+    value: settings.testMode,
+}) }}
+
+{# api country #}
+{{ forms.selectField({
+    label: settings.attributeLabels.apiCountry,
+    name: 'apiCountry',
+    options: settings.getCountryOptions(),
+    value: settings.apiCountry,
+    errors: settings.getErrors('apiCountry'),
+}) }}
+
+{# api client id #}
+{{ forms.autosuggestField({
+    label: settings.attributeLabels.apiCliendId,
+    name: 'apiCliendId',
+    value: settings.apiCliendId,
+    errors: settings.getErrors('apiCliendId'),
+    suggestEnvVars: true,
+}) }}
+
+{# api username #}
+{{ forms.autosuggestField({
+    label: settings.attributeLabels.apiUsername,
+    name: 'apiUsername',
+    value: settings.apiUsername,
+    errors: settings.getErrors('apiUsername'),
+    suggestEnvVars: true,
+}) }}
+
+{# api password #}
+{{ forms.autosuggestField({
+    label: settings.attributeLabels.apiPassword,
+    name: 'apiPassword',
+    value: settings.apiPassword,
+    errors: settings.getErrors('apiPassword'),
+    suggestEnvVars: true,
+}) }}
+
+{# shipping methods #}
+{{forms.editableTableField({
+    id: 'enabledShippingMethods',
+    name: 'enabledShippingMethods',
+    cols: settings.getShippingMethodsColumns(),
+    rows: settings.enabledShippingMethods,
+    addRowLabel: 'Add the shipping method'|t('mygls-shipping'),
+    initJs: true,
+    label: settings.attributeLabels.enabledShippingMethods,
+    errors: settings.getErrors('enabledShippingMethods'),
+    allowAdd: true,
+    allowDelete: true,
+    allowReorder: false,
+}) }}
+
+{# COD currency #}
+{{ forms.textField({
+    label: settings.attributeLabels.currencyCode,
+    instructions: 'Optional. In ISO format, must be the upper case.'|t('mygls-shipping'),
+    name: 'currencyCode',
+    value: settings.currencyCode,
+    errors: settings.getErrors('currencyCode'),
+}) }}

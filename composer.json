@@ -1,0 +1,34 @@
+{
+  "name": "craftsnippets/craft-shipping-toolbox-mygls",
+  "type": "craft-plugin",
+  "version": "1.0.0",
+  "license": "mit",
+  "require": {
+    "php": ">=8.2",
+    "craftcms/cms": "^5.4.0",
+    "webapix/mygls-sdk": "*",
+    "craftsnippets/craft-shipping-toolbox-base-plugin": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "craftsnippets\\mygls\\": "src/"
+    }
+  },
+  "extra": {
+    "handle": "mygls-shipping",
+    "name": "MyGls integration for Craft Commerce",
+    "developer": "Piotr Pogorzelski",
+    "documentationUrl": "",
+    "class": "craftsnippets\\mygls\\MyGls"
+  },
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "8.2"
+    },
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "craftcms/plugin-installer": true
+    }
+  }
+}
