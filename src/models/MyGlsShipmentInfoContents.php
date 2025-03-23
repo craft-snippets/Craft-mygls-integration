@@ -2,6 +2,9 @@
 
 namespace craftsnippets\mygls\models;
 use craftsnippets\baseshippingplugin\BaseShipmentInfoContents;
+use craftsnippets\shippingtoolbox\ShippingToolbox;
+use craftsnippets\mygls\MyGls;
+
 class MyGlsShipmentInfoContents extends BaseShipmentInfoContents
 {
 
@@ -21,5 +24,14 @@ class MyGlsShipmentInfoContents extends BaseShipmentInfoContents
                 'label' => \Craft::t('shipping-toolbox', 'Parcel shop name'),
             ],
         ];
+    }
+
+    public static function render($order, $property)
+    {
+        if($property == 'parcelShopCode'){
+            $html = ShippingToolbox::getInstance()->plugins->renderParcelShopSelect($order, MyGls::getInstance()->handle);
+            return $html;
+        }
+        return null;
     }
 }

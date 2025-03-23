@@ -9,6 +9,7 @@
 {#</script>#}
 
 <div data-parcel-shop-plugin="{{ pluginHandle }}">
+    <input type="hidden" name="shipment-info[plugin-handle]" value="{{ pluginHandle }}">
     <select
         data-parcel-shop-code="{{ craft.shippingToolbox.getOrderSavedShipmentProperty(order, pluginHandle, 'parcelShopCode') }}"
         name="{{ craft.shippingToolbox.shipmentInfoParamName('parcelShopCode', pluginHandle) }}"
