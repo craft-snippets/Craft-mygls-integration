@@ -217,7 +217,9 @@ class GlsService extends ShippingServiceBase
         // SEND REQUEST
 
         $client = new Client(new HttpClient);
-        $request = new PrintLabels();
+
+        // WebshopEngine set to empty
+        $request = new PrintLabels('');
         $request->addParcel($parcel);
 
         $response = $client->on($account)->request($request);

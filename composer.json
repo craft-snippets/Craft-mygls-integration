@@ -1,13 +1,13 @@
 {
   "name": "craftsnippets/craft-shipping-toolbox-mygls",
   "type": "craft-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "mit",
   "require": {
     "php": ">=8.2",
     "craftcms/cms": "^5.4.0",
     "webapix/mygls-sdk": "*",
-    "craftsnippets/craft-shipping-toolbox-base-plugin": "*"
+    "craftsnippets/craft-shipping-toolbox-base-plugin": "1.0.1"
   },
   "autoload": {
     "psr-4": {
