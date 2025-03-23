@@ -8,20 +8,28 @@
 {#    ];#}
 {#</script>#}
 
-<select
-    data-parcel-shop-plugin="{{ pluginHandle }}"
-    data-parcel-shop-code="{{ preselectedCode }}"
-    name="fields[{{ fieldHandle }}]"
-></select>
-
+<div data-parcel-shop-plugin="{{ pluginHandle }}">
+    <select
+        data-parcel-shop-code="{{ craft.shippingToolbox.getOrderSavedShipmentProperty(order, pluginHandle, 'parcelShopCode') }}"
+        name="{{ craft.shippingToolbox.shipmentInfoParamName('parcelShopCode', pluginHandle) }}"
+    ></select>
+    <input
+        type="hidden"
+        name="{{ craft.shippingToolbox.shipmentInfoParamName('parcelShopName', pluginHandle) }}"
+        value="{{ craft.shippingToolbox.getOrderSavedShipmentProperty(order, pluginHandle, 'parcelShopName') }}"
+        data-parcel-shop-name
+    >
+</div>
 <script>
+(function(){
 fetch('https://map.gls-hungary.com/data/deliveryPoints/hr.json')
     .then(response => response.json())
     .then(data => {
 
     const options = data.items;
 
-    const selectElement = document.querySelector('[data-parcel-shop-plugin="{{ pluginHandle }}"]');
+    const selectElement = document.querySelector('[data-parcel-shop-plugin="{{ pluginHandle }}"] [data-parcel-shop-code]');
+    const nameElement = document.querySelector('[data-parcel-shop-plugin="{{ pluginHandle }}"] [data-parcel-shop-name]');
     const preselectedValue = selectElement.getAttribute('data-parcel-shop-code');
 
     // Initialize Choices.js
@@ -37,6 +45,21 @@ fetch('https://map.gls-hungary.com/data/deliveryPoints/hr.json')
         label: `${opt.name} - ${opt.id}`,
         customProperties: { postalCode: opt.contact.postalCode, city: opt.contact.city }
     }));
+
+    // set parcel shop name input
+    choices.passedElement.element.addEventListener(
+        'choice',
+        function(event) {
+            code = event.detail.choice.value;
+            const matchingOption = formattedOptions.find(opt => opt.value === code);
+
+            if (matchingOption) {
+                label = matchingOption.label;
+                nameElement.value = label;
+            }
+        },
+        false,
+    );
 
     // Load options into Choices.js
     choices.setChoices(formattedOptions, 'value', 'label', true);
@@ -79,4 +102,5 @@ fetch('https://map.gls-hungary.com/data/deliveryPoints/hr.json')
 
 })
 .catch(error => console.error('Error loading data:', error));
+})();
 </script>

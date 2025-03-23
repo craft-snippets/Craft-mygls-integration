@@ -14,6 +14,7 @@ use craftsnippets\mygls\models\GlsShipmentDetails;
 use craftsnippets\mygls\services\GlsService;
 use craftsnippets\mygls\elements\actions\CreateParcelsAction;
 use yii\base\Event;
+use craftsnippets\mygls\models\MyGlsShipmentInfoContents;
 
 class MyGls extends ShippingPlugin
 {
@@ -178,6 +179,11 @@ class MyGls extends ShippingPlugin
     public function getParcelShopSelectWidgetTemplate(): ?string
     {
         return 'mygls-shipping/parcel-shop-select.twig';
+    }
+
+    public static function getShipmentInfContentsClass()
+    {
+        return MyGlsShipmentInfoContents::class;
     }
 
 }
