@@ -311,9 +311,17 @@ class GlsShipmentDetails extends BaseShippingDetails
         return json_encode($array);
     }
 
+    // COD
+
     public function isCod()
     {
         return $this->CODAmount > 0;
+    }
+
+    public function getCodCurrencyBeforeCreation()
+    {
+        $currency = $this->plugin->getSettings()->currencyCode;
+        return $currency ? $currency : 'EUR';
     }
 
     public function canRemoveParcels()
@@ -321,15 +329,36 @@ class GlsShipmentDetails extends BaseShippingDetails
         return true;
     }
 
-    public function hasParcelShopCode()
+    public function getCodAmountNumber()
     {
-        $parcelShopCode = ShippingToolbox::getInstance()->plugins->getParcelShopCodeForOrder($this->order);
-        return !is_null($parcelShopCode);
+        return $this->CODAmount;
     }
 
-    public function getParcelShopCode()
+    public function getCodAmountCurrency()
     {
-        return ShippingToolbox::getInstance()->plugins->getParcelShopCodeForOrder($this->order);;
+        $currency = $this->CODCurrency;
+        return $currency ? $currency : 'EUR (default currency)';
+    }
+
+    public function codIsEnabledBeforeCreation()
+    {
+        $settings = $this->plugin->getSettings();
+        $methods = $settings->enabledShippingMethods;
+        $methodsIds = array_column($methods, 'shippingMethodId');
+        $order = $this->order;
+        if(is_null($order->getShippingMethod()) || !in_array($order->getShippingMethod()->id, $methodsIds)){
+            return false;
+        }
+
+        $shippingMethodOption = array_filter($methods, function($single) use ($order){
+            return $single['shippingMethodId'] == $order->getShippingMethod()->id;
+        });
+        $shippingMethodOption = reset($shippingMethodOption);
+        if(($shippingMethodOption['cod'] ?? false) == $settings::COD_ENABLED){
+            return true;
+        }
+        return false;
+
     }
 
     // PSD service requires ContactName, ContactPhone, ContactEmail

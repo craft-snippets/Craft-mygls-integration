@@ -1,0 +1,55 @@
+{% js %}
+var el = document.querySelector('[data-parcel-shop-map]');
+el.addEventListener('change', (e) => {
+    const pluginContainer = el.closest('[data-parcel-shop-plugin]');
+    const nameElement = pluginContainer.querySelector('[data-parcel-shop-name]');
+    const codeElement = pluginContainer.querySelector('[data-parcel-shop-code]');
+    const summaryElement = pluginContainer.querySelector('[data-parcel-shop-summary]');
+    if(e.detail){
+        nameElement.value = e.detail.name;
+        codeElement.value = e.detail.id;
+        summaryElement.value = e.detail.name + ' - ' + e.detail.id
+    }
+});
+{% endjs %}
+
+<script type="module" src="https://map.gls-hungary.com/widget/gls-dpm.js"></script>
+
+<div data-parcel-shop-plugin="{{ pluginHandle }}">
+
+<div style="height: 600px" parcel-map__widget>
+    <gls-dpm country="{{ plugin.getSettings().apiCountry }}" data-parcel-shop-map></gls-dpm>
+</div>
+
+<input type="hidden" name="shipment-info[plugin-handle]" value="{{ pluginHandle }}">
+
+<div class="parcel-map__summary-label">
+    {{ 'Selected parcel delivery shop'|t }}
+</div>
+{% set summaryText = null %}
+{% if craft.shippingToolbox.getOrderSavedShipmentProperty(order, pluginHandle, 'parcelShopCode') and craft.shippingToolbox.shipmentInfoParamName('parcelShopName', pluginHandle) %}
+    {% set summaryText = craft.shippingToolbox.getOrderSavedShipmentProperty(order, pluginHandle, 'parcelShopName') ~ ' - ' ~ craft.shippingToolbox.getOrderSavedShipmentProperty(order, pluginHandle, 'parcelShopCode') %}
+{% endif %}
+<input
+    readonly
+    data-parcel-shop-summary
+    value="{{ summaryText }}"
+    style="pointer-events: none;"
+    class="parcel-map__summary-input w-full border border-gray-300 hover:border-gray-500 px-4 py-2 leading-tight rounded"
+>
+<input
+    readonly
+    hidden
+    name="{{ craft.shippingToolbox.shipmentInfoParamName('parcelShopCode', pluginHandle) }}"
+    value="{{ craft.shippingToolbox.getOrderSavedShipmentProperty(order, pluginHandle, 'parcelShopCode') }}"
+    data-parcel-shop-code
+>
+<input
+    type="text"
+    readonly
+    hidden
+    name="{{ craft.shippingToolbox.shipmentInfoParamName('parcelShopName', pluginHandle) }}"
+    value="{{ craft.shippingToolbox.getOrderSavedShipmentProperty(order, pluginHandle, 'parcelShopName') }}"
+    data-parcel-shop-name
+>
+</div>

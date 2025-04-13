@@ -94,6 +94,7 @@ class GlsService extends ShippingServiceBase
             'parcelDescription' => null,
             'pickupDate' => null,
             'parcelShopCode' => null,
+            'codAmount' => null,
         ];
         $requestSettings = array_merge($defaultSettings, $requestSettings);
         // empty string into null
@@ -180,14 +181,10 @@ class GlsService extends ShippingServiceBase
             ->setClientReference($order->number);
 
         // parcel shop
-        $parcelCodeSettings = $requestSettings['parcelShopCode'];
-        if($shippingData->hasParcelShopCode() || !empty($parcelCodeSettings)){
-            $parcelCode = $shippingData->getParcelShopCode();
-            if(!empty($parcelCodeSettings)){
-                $parcelCode = $parcelCodeSettings;
-            }
+        $parcelShopCode = $requestSettings['parcelShopCode'];
+        if(!is_null($parcelShopCode)){
             $parcel->addService(
-                new ParcelShopDelivery($parcelCode)
+                new ParcelShopDelivery($parcelShopCode)
             );
         }
 
@@ -204,8 +201,9 @@ class GlsService extends ShippingServiceBase
         }
 
         // cod
-        if(MyGls::getInstance()->canUseCod($order)){
-            $parcel->setCodAmount(MyGls::getInstance()->getCodBeforeRequest($order));
+        $codAmount = $requestSettings['codAmount'];
+        if(!is_null($codAmount)){
+            $parcel->setCodAmount($codAmount);
             $parcel->setCodReference($order->number);
             if(self::getSettings()->currencyCode){
                 $parcel->setCodCurrency(self::getSettings()->currencyCode);

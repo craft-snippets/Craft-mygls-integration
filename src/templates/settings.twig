@@ -67,3 +67,12 @@
     value: settings.currencyCode,
     errors: settings.getErrors('currencyCode'),
 }) }}
+
+{# parcel shop widget #}
+{{ forms.selectField({
+    label: settings.attributeLabels.parcelShopWidget,
+    name: 'parcelShopWidget',
+    options: settings.getParcelShopWidgetOptions(),
+    value: settings.parcelShopWidget,
+    errors: settings.getErrors('parcelShopWidget'),
+}) }}

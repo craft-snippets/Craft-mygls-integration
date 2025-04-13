@@ -1,30 +1,12 @@
 # MyGls Shipping Toolbox
 
-
-
-## Requirements
-
-This plugin requires Craft CMS 5.4.0 or later, and PHP 8.2 or later.
-
 ## Installation
 
-You can install this plugin from the Plugin Store or with Composer.
-
-#### From the Plugin Store
-
-Go to the Plugin Store in your project’s Control Panel and search for “MyGls Shipping Toolbox”. Then press “Install”.
-
-#### With Composer
-
-Open your terminal and run the following commands:
-
-```bash
-# go to the project directory
-cd /path/to/my-project.test
-
-# tell Composer to load the plugin
-composer require craftsnippets/craft-shipping-toolbox-mygls
-
-# tell Craft to install the plugin
-./craft plugin/install mygls-shipping
 ```
+composer require craftsnippets/craft-shipping-toolbox-mygls
+```
+## Parcel delivery shop
+
+API will display this error if we use parcel delivery shop and phone number of delivery address is using incorrect format: "Invalid service parameter, Service 'PSD'".
+
+When testing plugin, you can use this phone number: `999999999`.

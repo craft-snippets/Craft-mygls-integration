@@ -171,6 +171,11 @@ class MyGls extends ShippingPlugin
         return true;
     }
 
+    public function supportsCod()
+    {
+        return true;
+    }
+
     public function getParcelShopsParametersErrors()
     {
         return Craft::t('mygls-shipping', 'PSD service requires delivery address to have name/organisation name, contact phone and contact email.');
@@ -178,7 +183,13 @@ class MyGls extends ShippingPlugin
 
     public function getParcelShopSelectWidgetTemplate(): ?string
     {
-        return 'mygls-shipping/parcel-shop-select.twig';
+        if($this->getSettings()->parcelShopWidget == $this->getSettings()::PARCEL_WIDGET_MAP){
+            return 'mygls-shipping/parcel-shop-map.twig';
+        }
+        if($this->getSettings()->parcelShopWidget == $this->getSettings()::PARCEL_WIDGET_SELECT){
+            return 'mygls-shipping/parcel-shop-select.twig';
+        }
+        return 'mygls-shipping/parcel-shop-map.twig';
     }
 
     public static function getShipmentInfContentsClass()

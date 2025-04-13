@@ -21,6 +21,7 @@ class Settings extends Model
     public bool $testMode = false;
     public array $enabledShippingMethods = [];
     public $currencyCode;
+    public $parcelShopWidget = self::PARCEL_WIDGET_MAP;
 
     public function attributeLabels()
     {
@@ -32,6 +33,7 @@ class Settings extends Model
             'testMode' => Craft::t('mygls-shipping', 'API test mode'),
             'enabledShippingMethods' => Craft::t('mygls-shipping', 'Shipping methods with MyGls integration enabled'),
             'currencyCode' => Craft::t('mygls-shipping', 'Currency code for cash on delivery parcels'),
+            'parcelShopWidget' => Craft::t('mygls-shipping', 'Parcel delivery shop widget'),
         ];
     }
 
@@ -122,6 +124,23 @@ class Settings extends Model
             ],
         ];
         return $columns;
+    }
+
+    const PARCEL_WIDGET_SELECT = 'select';
+    const PARCEL_WIDGET_MAP = 'map';
+
+    public function getParcelShopWidgetOptions()
+    {
+        return [
+            [
+                'value' => self::PARCEL_WIDGET_MAP,
+                'label' => Craft::t('mygls-shipping', 'Locations map'),
+            ],
+            [
+                'value' => self::PARCEL_WIDGET_SELECT,
+                'label' => Craft::t('mygls-shipping', 'Locations list'),
+            ],
+        ];
     }
 
 }
