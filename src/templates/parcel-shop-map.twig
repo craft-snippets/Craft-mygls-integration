@@ -1,5 +1,5 @@
 {% js %}
-var el = document.querySelector('[data-parcel-shop-map]');
+var el = document.querySelector('[data-parcel-shop-plugin="{{ pluginHandle }}"] [data-parcel-shop-map]');
 el.addEventListener('change', (e) => {
     const pluginContainer = el.closest('[data-parcel-shop-plugin]');
     const nameElement = pluginContainer.querySelector('[data-parcel-shop-name]');
