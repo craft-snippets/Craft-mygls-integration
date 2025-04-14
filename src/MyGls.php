@@ -4,6 +4,7 @@ namespace craftsnippets\mygls;
 
 use Craft;
 use craft\commerce\elements\Order;
+use craft\commerce\Plugin as CommercePlugin;
 use craft\events\RegisterTemplateRootsEvent;
 use craft\helpers\ArrayHelper;
 use craft\web\View;
@@ -195,6 +196,24 @@ class MyGls extends ShippingPlugin
     public static function getShipmentInfContentsClass()
     {
         return MyGlsShipmentInfoContents::class;
+    }
+
+    public function isParcelShopAllowedForShippingMethod($methodHandle)
+    {
+        $shippingMethod = CommercePlugin::getInstance()->shippingMethods->getShippingMethodByHandle($methodHandle);
+        if(is_null($shippingMethod)){
+            return false;
+        }
+        $settings = $this->getSettings()->enabledShippingMethods;
+        $settingsForMethod = array_filter($settings, function($single) use ($shippingMethod){
+            return $single['shippingMethodId'] == $shippingMethod->id;
+        });
+        if(empty($settingsForMethod)){
+            return false;
+        }
+        $settingsForMethod = reset($settingsForMethod);
+
+        return $settingsForMethod['parcelShop'] == $this->getSettings()::PARCEL_SHOP_ENABLED;
     }
 
 }
